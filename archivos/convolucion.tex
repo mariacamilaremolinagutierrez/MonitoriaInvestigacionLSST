@@ -1,0 +1,101 @@
+\documentclass[oneside]{book}
+\usepackage{braket}
+\usepackage[latin1]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage[pdftex]{color,graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{calligra}
+%\usepackage{algpseudocode} 
+%\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+%\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\textwidth}{490pt}
+\setlength{\topmargin}{-40pt}
+\addtolength{\hoffset}{-0.3cm}
+\addtolength{\textheight}{4cm}
+\usepackage{amssymb}
+\usepackage{graphicx} % Required for the inclusion of images
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+\usepackage{float}
+\usepackage{makeidx}
+
+\begin{document}
+
+\begin{center}
+\textsc{\LARGE Convolución 2D de Gaussianas}\\[0.5cm]
+\end{center}
+
+Sea $N(x,\mu,\sigma)$ la función distribución normal con varianza $\sigma^2$ y promedio $\mu$ definida como sigue:
+
+\begin{equation}
+N(x,\mu,\sigma) = \frac{1}{\sqrt{2\pi \sigma^2}}e^{- \frac{(x-\mu)^2}{2\sigma^2}}
+\end{equation}
+
+Tome las siguientes distribuciones normales bidimensionales:
+
+\begin{equation}
+f(x,y) =  N(x,\mu_{x_1},\sigma_{x_1}) N(y,\mu_{y_1},\sigma_{y_1})
+\end{equation}
+
+\begin{equation}
+g(x,y) =  N(x,\mu_{x_2},\sigma_{x_2}) N(y,\mu_{y_2},\sigma_{y_2})
+\end{equation}
+
+El producto de convolución bidimensional se define como:
+
+\begin{equation}
+f*g(x,y)  = \int_{\mathbb{R}} \int_{\mathbb{R}} dt d\tau\;  f(x-t,y-\tau) g(t,\tau)
+\end{equation}
+
+Como las funciones se pueden separar, se obtiene lo siguiente:
+
+\begin{multline}
+\int_{\mathbb{R}} \int_{\mathbb{R}} dt d\tau\;  f(x-t,y-\tau) g(t,\tau)  =\\ \left( \int_{\mathbb{R}} dt\;   N(x-t,\mu_{x_1},\sigma_{x_1})  N(t,\mu_{x_2},\sigma_{x_2})  \right) \times \left( \int_{\mathbb{R}} dt\;   N(y-t,\mu_{y_1},\sigma_{y_1})  N(t,\mu_{y_2},\sigma_{y_2})  \right) 
+\end{multline}
+
+Es decir, se obtiene la multiplicación de dos convoluciones en una dimensión. La convolución ordinaria de dos distribuciones normales es:
+
+\begin{equation}
+\int_{\mathbb{R}} dt\;   N(x-t,\mu_{x_1},\sigma_{x_1})  N(t,\mu_{x_2},\sigma_{x_2})  =   N\left(x, \mu_{x_1} +\mu_{x_2}, \sqrt{\sigma_{x_1}^2 + \sigma_{x_2}^2}\right)
+\end{equation}
+
+Por lo que, se tiene que:
+
+\begin{equation}
+f*g(x,y)   =  N\left(x, \mu_{x_1} +\mu_{x_2}, \sqrt{\sigma_{x_1}^2 + \sigma_{x_2}^2}\right) N\left(x, \mu_{y_1} +\mu_{y_2}, \sqrt{\sigma_{y_1}^2 + \sigma_{y_2}^2}\right)
+\end{equation}
+
+Ahora con esto se resuelve el siguiente problema. Suponga tiene unas funciones $g$ y $f$ como se definieron anteriormente. Usted desea encontrar una función $K$ tal que pase lo siguiente:
+
+\begin{equation}
+f*K(x,y) = g(x,y)
+\end{equation}
+
+La función $K$ es:
+
+\begin{equation}
+K(x,y)   =  N\left(x, \mu_{x_2} - \mu_{x_1} , \sqrt{ \sigma_{x_2}^2 - \sigma_{x_1}^2}\right) N\left(x,  \mu_{y_2}-\mu_{y_1}, \sqrt{  \sigma_{y_2}^2  - \sigma_{y_1}^2}\right)
+\end{equation}
+
+\newpage
+
+Todo esto se hace para que......
+
+\begin{equation}
+I_1 - I_2*K = S
+\end{equation}
+
+\begin{equation}
+PSF_{I_1} \neq PSF_{I_2}
+\end{equation}
+
+\begin{equation}
+PSF_{I_1}*K = PSF_{I_2}
+\end{equation}
+
+\end{document}
